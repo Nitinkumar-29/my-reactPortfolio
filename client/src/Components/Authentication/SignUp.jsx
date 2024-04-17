@@ -7,8 +7,8 @@ import { FaEye } from "react-icons/fa";
 
 const SignUp = (props) => {
   const navigate = useNavigate();
-  // const host = "https://nitinkumar-backend.vercel.app";
-  const host = "http://localhost:8000";
+  const host = "https://nitinkumar-backend.vercel.app";
+  // const host = "http://localhost:8000";
   const [credentials, setCredentials] = useState({
     name: "",
     email: "",
