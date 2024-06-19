@@ -68,6 +68,16 @@
       "Techs": ["react js", "bootstrap CSS", "newsAPI"],
       "createdAt": "4/20/2023, 2:21:56 PM",
       "updatedAt": "4/20/2022, 2:21:56 PM"
+    },
+    {
+      "projectId": "7",
+      "name": "Utsav - Event Planning Application",
+      "description": "Utsav is a platform which simplifies booking venues and vendors for the occassions.",
+      "JS framework": "React JS",
+      "gitHub_Url": "https://github.com/Nitinkumar2905/News-Monkey-App",
+      "Techs": ["react js", "bootstrap CSS", "newsAPI"],
+      "createdAt": "4/20/2023, 2:21:56 PM",
+      "updatedAt": "4/20/2022, 2:21:56 PM"
     }
   ]
 }
