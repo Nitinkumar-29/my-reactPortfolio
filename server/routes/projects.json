@@ -22,7 +22,6 @@
       "projectId": "3",
       "name": "Random Quote Generator",
       "description": "This is an application which provides functionality to generate random quotes and provides functionlality to copy them which single click.",
-      "gitHub_Url": "https://github.com/Nitinkumar2905/CRT-randomQuoteGenerator",
       "visit": "https://generatequote.vercel.app/",
       "Techs": ["javascript", "vanila CSS"]
     },
@@ -40,6 +39,7 @@
       "description": "Utsav is a platform which simplifies booking venues and vendors for the occassions.",
       "JS framework": "React JS, Express JS",
       "gitHub_Url": "https://github.com/Nitinkumar-29/utsav",
+      "visit":"https://utsav-alpha.vercel.app",
       "Techs": ["react js", "Tailwind CSS"]
     },
     {
