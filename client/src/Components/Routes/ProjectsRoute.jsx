@@ -99,7 +99,7 @@ const ProjectRoute = (props) => {
                             {project.description}
                           </p>
                           <div>
-                            {project.gitHub_Url && (
+                            {project?.gitHub_Url && (
                               <Link
                                 to={`${project.gitHub_Url}`}
                                 target="_blank"
@@ -119,7 +119,7 @@ const ProjectRoute = (props) => {
                               {isProjectSaved ? "Saved" : "Save"}
                             </button>
 
-                            {project.visit && (
+                            {project?.visit && (
                               <Link
                                 to={`${project.visit}`}
                                 target="_blank"
