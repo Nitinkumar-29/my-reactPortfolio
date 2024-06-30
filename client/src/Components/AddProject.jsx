@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ProjectContext from "../Context/projects/ProjectContext";
 
 const AddProject = (props) => {
   const [addProject, setAddProject] = useState({
@@ -11,12 +12,12 @@ const AddProject = (props) => {
   });
   const navigate = useNavigate();
   const [tagInput, setTagInput] = useState("");
-  const host = "http://localhost:8000";
-  const token = localStorage.getItem("token");
+  const { host } = useContext(ProjectContext);
 
   const onChange = (e) => {
     setAddProject({ ...addProject, [e.target.name]: e.target.value });
   };
+  const token = localStorage.getItem("token")
 
   const handleTagInputChange = (e) => {
     setTagInput(e.target.value);
