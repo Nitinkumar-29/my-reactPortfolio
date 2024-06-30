@@ -1,71 +1,24 @@
-import React, { useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import "../styles/Login.css";
-import { toast } from "react-hot-toast";
 import loadingIcon from "../images/loadingt.gif";
 import { FaEye } from "react-icons/fa";
+import AuthContext from "../../Context/authentication_/AuthContext";
 
 const Login = (props) => {
-  const host = "https://nitinkumar-backend.vercel.app";
-  // const host = "http://localhost:8000";
-  const token = localStorage.getItem("token");
-  const [credentials, setCredentials] = useState({ email: "", password: "" });
-  const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
-  const [passwordType, setPasswordType] = useState("password");
-  const toggleRef = useRef();
-
-  const togglePasswordType = () => {
-    toggleRef.current.click();
-    if (passwordType === "password") {
-      setPasswordType("text");
-    } else {
-      setPasswordType("password");
-    }
-  };
+  const {
+    setCredentials,
+    credentials,
+    isLoading,
+    login,
+    togglePasswordType,
+    passwordType,
+    toggleRef,
+  } = useContext(AuthContext);
 
   const handleLogin = async (e) => {
-    setIsLoading(true);
     e.preventDefault();
-    props.setProgress(0);
-    const response = await fetch(`${host}/api/auth/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token": token,
-      },
-      body: JSON.stringify({
-        email: credentials.email,
-        password: credentials.password,
-      }),
-    });
-    props.setProgress(40);
-
-    const json = await response.json();
-    if (json.success) {
-      localStorage.setItem("token", json.authToken);
-      navigate("/");
-
-      setIsLoading(false);
-      props.setProgress(100);
-      toast.success("Successfully logged In!", {
-        style: {
-          borderRadius: "10px",
-          background: `${props.mode === "Dark" ? "#fff" : "#333"}`,
-          color: `${props.mode === "Dark" ? "#333" : "#fff"}`,
-        },
-      });
-    } else {
-      setIsLoading(false);
-      props.setProgress(100);
-      toast.error("Invalid credentials !", {
-        style: {
-          borderRadius: "10px",
-          background: `${props.mode === "Dark" ? "#fff" : "#333"}`,
-          color: `${props.mode === "Dark" ? "#333" : "#fff"}`,
-        },
-      });
-    }
+    login();
   };
 
   const onChange = (e) => {
@@ -138,7 +91,28 @@ const Login = (props) => {
                   We will never share your credentials with anyone else
                 </small>
               </div>
-
+              <div className={`login-item`}>
+                <label htmlFor="password">Secret key:</label>
+                <div
+                  className={`position-relative d-flex justify-items-between text-${
+                    props.mode === "Dark" ? "light" : "dark"
+                  } border rounded border-${
+                    props.mode === "Dark" ? "light" : "dark"
+                  }`}
+                >
+                  <input
+                    required
+                    value={credentials.secretKey}
+                    onChange={onChange}
+                    minLength={8}
+                    type="password"
+                    name="secretKey"
+                    id="secretKey"
+                    className="p-2"
+                    placeholder="................."
+                  />
+                </div>
+              </div>
               <div className="">
                 <button
                   className={`mt-4 px-4 py-2 btn btn-outline-${

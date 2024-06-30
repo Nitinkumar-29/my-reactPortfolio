@@ -1,3 +1,6 @@
+.service-main {
+  min-height: 74vh;
+}
 @media (min-width: 360px) and (max-width: 768px) {
   .service-main {
     height: 100%;
@@ -29,7 +32,7 @@
     width: 100%;
     margin: 0px auto;
   }
-  .service-content{
+  .service-content {
     height: 80vh;
   }
 
@@ -58,7 +61,7 @@
     margin: 0px auto;
   }
 
-  .service-content{
+  .service-content {
     min-height: 67.5vh;
   }
 

@@ -1,99 +1,30 @@
-import { useNavigate } from "react-router-dom";
-import React, { useRef, useState } from "react";
+import React, { useContext } from "react";
 import "../styles/SignUp.css";
-import { toast } from "react-hot-toast";
 import loadingIcon from "../images/loadingt.gif";
 import { FaEye } from "react-icons/fa";
+import AuthContext from "../../Context/authentication_/AuthContext";
 
 const SignUp = (props) => {
-  const navigate = useNavigate();
-  const host = "https://nitinkumar-backend.vercel.app";
-  // const host = "http://localhost:8000";
-  const [credentials, setCredentials] = useState({
-    name: "",
-    email: "",
-    password: "",
-    cpassword: "",
-  });
-  const [isLoading, setIsLoading] = useState(false);
-  const onChange = (e) => {
-    setCredentials({ ...credentials, [e.target.name]: e.target.value });
-  };
-  const [passwordType, setPasswordType] = useState("password");
-  const toggleRef = useRef();
+  const {
+    togglePasswordType,
+    toggleRef,
+    passwordType,
+    isLoading,
+    createAccountCredentials,
+    setCreateAccountCredentials,
+    secretKeyErrorMessage,
+    signUp,
+  } = useContext(AuthContext);
 
-  const togglePasswordType = () => {
-    toggleRef.current.click();
-    if (passwordType === "password") {
-      setPasswordType("text");
-    } else {
-      setPasswordType("password");
-    }
+  const onChange = (e) => {
+    setCreateAccountCredentials({
+      ...createAccountCredentials,
+      [e.target.name]: e.target.value,
+    });
   };
   const handleSignUp = async (e) => {
     e.preventDefault();
-    setIsLoading(true);
-    const { name, email, password, cpassword } = credentials;
-
-    if (password === cpassword) {
-      try {
-        const response = await fetch(`${host}/api/auth/createUser`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name,
-            email,
-            password,
-            cpassword,
-          }),
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to create user.");
-        }
-
-        const json = await response.json();
-        setIsLoading(false);
-        if (json.success) {
-          localStorage.setItem("token", json.authToken);
-          navigate("/");
-          toast.success("Account created successfully!", {
-            style: {
-              borderRadius: "10px",
-              background: `${props.mode === "Dark" ? "#fff" : "#333"}`,
-              color: `${props.mode === "Dark" ? "#333" : "#fff"}`,
-            },
-          });
-        } else {
-          toast.error("Cannot process right now, Sorry!", {
-            style: {
-              borderRadius: "10px",
-              background: `${props.mode === "Dark" ? "#fff" : "#333"}`,
-              color: `${props.mode === "Dark" ? "#333" : "#fff"}`,
-            },
-          });
-        }
-      } catch (error) {
-        toast.error("User already exists with this email", {
-          style: {
-            borderRadius: "10px",
-            background: `${props.mode === "Dark" ? "#fff" : "#333"}`,
-            color: `${props.mode === "Dark" ? "#333" : "#fff"}`,
-          },
-        });
-      }
-    } else {
-      setIsLoading(false);
-      toast.error("Password conflict!", {
-        style: {
-          borderRadius: "10px",
-          background: `${props.mode === "Dark" ? "#fff" : "#333"}`,
-          color: `${props.mode === "Dark" ? "#333" : "#fff"}`,
-        },
-      });
-    }
+    signUp();
   };
 
   return (
@@ -104,7 +35,7 @@ const SignUp = (props) => {
             props.mode === "Dark" ? "light" : "dark"
           } text-center`}
         >
-          <h3>New user ? SignUp Now</h3>
+          <h3 className="mt-5">Only for Admin </h3>
           <div
             className={`SignUp-form border border-${
               props.mode === "Dark" ? "light" : "dark"
@@ -120,7 +51,7 @@ const SignUp = (props) => {
                     props.mode === "Dark" ? "light" : "dark"
                   }  p-2`}
                   required
-                  value={credentials.name}
+                  value={createAccountCredentials.name}
                   onChange={onChange}
                   type="text"
                   name="name"
@@ -137,7 +68,7 @@ const SignUp = (props) => {
                     props.mode === "Dark" ? "light" : "dark"
                   }  p-2`}
                   required
-                  value={credentials.email}
+                  value={createAccountCredentials.email}
                   onChange={onChange}
                   type="email"
                   name="email"
@@ -156,7 +87,7 @@ const SignUp = (props) => {
                 >
                   <input
                     required
-                    value={credentials.password}
+                    value={createAccountCredentials.password}
                     onChange={onChange}
                     ref={toggleRef}
                     minLength={8}
@@ -180,7 +111,7 @@ const SignUp = (props) => {
                     props.mode === "Dark" ? "light" : "dark"
                   }  p-2`}
                   required
-                  value={credentials.cpassword}
+                  value={createAccountCredentials.cpassword}
                   onChange={onChange}
                   minLength={8}
                   type="password"
@@ -188,9 +119,33 @@ const SignUp = (props) => {
                   id="cpassword"
                   placeholder="Must be same"
                 />
+              </div>
+              <div className={`SignUp-item`}>
+                <label htmlFor="secretKey">Secret Key:</label>
+                <div
+                  className={`d-flex justify-items-between text-${
+                    props.mode === "Dark" ? "light" : "dark"
+                  } border rounded border-${
+                    props.mode === "Dark" ? "light" : "dark"
+                  }  p-2`}
+                >
+                  <input
+                    required
+                    value={createAccountCredentials.secretKey}
+                    onChange={onChange}
+                    minLength={8}
+                    type="password"
+                    name="secretKey"
+                    id="secretkey"
+                    placeholder="....................."
+                  />
+                </div>
                 <small className="text-start mt-2 ps-2">
                   We will never share your credentials with anyone else
                 </small>
+                {!isLoading && (
+                  <span className="text-danger">{secretKeyErrorMessage}</span>
+                )}
               </div>
               <div className="">
                 <button

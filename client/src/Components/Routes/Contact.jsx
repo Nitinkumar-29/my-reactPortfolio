@@ -1,44 +1,10 @@
 import React from "react";
 import "../styles/Contact.css";
-import { useState } from "react";
-import { useEffect } from "react";
+import { FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { FaXTwitter } from "react-icons/fa6";
 
 const Contact = (props) => {
-  const [user, setUser] = useState({
-    name: "",
-    email: "",
-    userId: "",
-  });
-  const [loading, setLoading] = useState(false);
-  const token = localStorage.getItem("token");
-  const host = "https://nitinkumar-backend.vercel.app";
-  // const host = "http://localhost:8000";
-
-  const userDetails = async () => {
-    if (token) {
-      const response = await fetch(`${host}/api/auth/getUser`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "auth-token": token,
-        },
-      });
-      if (response.ok) {
-        const json = await response.json();
-        setUser({
-          name: json.user.name,
-          email: json.user.email,
-          userId: json.user._id,
-        });
-        setLoading(true);
-      } else {
-        throw new Error("Failed to fetch user details");
-      }
-    }
-  };
-  useEffect(() => {
-    userDetails();
-  }, []);
   return (
     <>
       <div
@@ -71,7 +37,7 @@ const Contact = (props) => {
                 build something amazing together? I'd love to hear from you!
               </p>
 
-              <div className={`mt-5 d-flex flex-column`}>
+              <div className={`my-5 d-flex flex-column`}>
                 <span
                   className={`text-${props.mode === "Dark" ? "light" : "dark"}`}
                 >
@@ -211,71 +177,35 @@ const Contact = (props) => {
                 <h5>Feeling social? Find me on these online spaces too!</h5>
               </div>
 
-              <div className="">
-                <div className="social-icon d-flex my-5">
-                  <li className="">
-                    <a
-                      rel="noreferrer"
-                      href="https://github.com/Nitinkumar2905"
-                      target="_blank"
-                      aria-label="open link to nitin kumar's github page."
-                    >
-                      <i className="fab fa-github" aria-hidden="true"></i>
-                    </a>
-                  </li>
-
-                  <li className="">
-                    <a
-                      rel="noreferrer"
-                      href="https://twitter.com/NitinKumar_29"
-                      target="_blank"
-                      aria-label="open link to nitin kumar's CodePen page."
-                    >
-                      <i className=" fab fa-twitter" aria-hidden="true"></i>
-                    </a>
-                  </li>
-
-                  <li className="">
-                    <a
-                      rel="noreferrer"
-                      href="https://www.linkedin.com/in/nitin-kumar-1a7250238/"
-                      target="_blank"
-                      aria-label="open link to nitin kumar's linkedin page"
-                    >
-                      <i
-                        className=" devicon-linkedin-plain "
-                        aria-hidden="true"
-                      ></i>
-                    </a>
-                  </li>
-
-                  <li className="">
-                    <a
-                      rel="noreferrer"
-                      href="http://instagram.com/nitin__nimble"
-                      target="_blank"
-                      aria-label="open link to nitin kumar's instagram page."
-                    >
-                      <i className=" fab fa-instagram" aria-hidden="true"></i>
-                    </a>
-                  </li>
-                </div>
-                <div
-                  className="align-items-center d-flex"
-                  style={{ width: "fit-content" }}
-                >
-                  <span className="ms-3 fs-2 ">Hire me on : &nbsp;</span>
-                  <button className={`fs-5 btn btn-outline-success`}>
-                    <a
-                      style={{ textDecoration: "none", color: "inherit" }}
-                      rel="noreferrer"
-                      href="https://www.upwork.com/freelancers/~012f602cb7e758622c"
-                      target="_blank"
-                    >
-                      Upwork
-                    </a>
-                  </button>
-                </div>
+              <div className="d-flex my-5">
+                <Link to="https://github.com/Nitinkumar-29">
+                  <FaGithub className="mx-2 cursor-pointer" size={25} role="button" />
+                </Link>
+                <Link to="https://twitter.com/Nitinkumar_29">
+                  <FaXTwitter className="mx-2 cursor-pointer" size={25} role="button" />
+                </Link>
+                <Link to="https://www.linkedin.com/in/nitin-kumar2905/">
+                  <FaLinkedin className="mx-2 cursor-pointer" size={25} role="button" />
+                </Link>
+                <Link to="https://instagram.com/nitin__nimble">
+                  <FaInstagram className="mx-2 cursor-pointer" size={25} role="button" />
+                </Link>
+              </div>
+              <div
+                className="align-items-center d-flex"
+                style={{ width: "fit-content" }}
+              >
+                <span className="ms-2 fs-2 ">Hire me on : &nbsp;</span>
+                <button className={`fs-5 btn btn-outline-success`}>
+                  <a
+                    style={{ textDecoration: "none", color: "inherit" }}
+                    rel="noreferrer"
+                    href="https://www.upwork.com/freelancers/~012f602cb7e758622c"
+                    target="_blank"
+                  >
+                    Upwork
+                  </a>
+                </button>
               </div>
             </div>
           </div>

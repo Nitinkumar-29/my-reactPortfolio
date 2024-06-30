@@ -1,72 +1,14 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import userDark from "../images/user-dark.png";
-import userLight from "../images/user-white.png";
-import ProjectContext from "../../Context/projects/ProjectContext";
-import { toast } from "react-hot-toast";
-import { useRef } from "react";
 import "../styles/UserProfile.css";
 import loadingbar from "../images/loadingt.gif";
+import AuthContext from "../../Context/authentication_/AuthContext";
+import { FaUser } from "react-icons/fa";
 
 const UserProfile = (props) => {
-  const context = useContext(ProjectContext);
-  const { savedProjects } = context;
-  const [user, setUser] = useState({ name: "", email: "", userId: "" });
   const navigate = useNavigate();
-  const ref = useRef(null);
-  const refClose = useRef(null);
-  
-  const host = "https://nitinkumar-backend.vercel.app";
-  // const host = "http://localhost:8000";
-  const token = localStorage.getItem("token");
-  const [loading, setLoading] = useState(false);
-
-  const userDetails = async () => {
-    if (token) {
-      const response = await fetch(`${host}/api/auth/getUser`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "auth-token": token,
-        },
-      });
-      if (response.ok) {
-        const json = await response.json();
-        setUser({
-          name: json.user.name,
-          email: json.user.email,
-          userId: json.user._id,
-        });
-        setLoading(true);
-      } else {
-        throw new Error("Failed to fetch user details");
-      }
-    }
-  };
-
-  const handleDeleteModel = () => {
-    ref.current.click();
-  };
-  const deleteUserAccount = async () => {
-    const response = await fetch(`${host}/api/auth/deleteUser/${user.userId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token": token,
-      },
-    });
-    if (response.ok) {
-      refClose.current.click();
-      localStorage.removeItem("token");
-      const json = await response.json();
-      console.log(json);
-      console.log(user.userId);
-      toast.success("Account deleted successfully");
-      navigate("/");
-    } else {
-      throw new Error("Failed to delete account");
-    }
-  };
+  const { userDetails, user, token, isLoading } =
+    useContext(AuthContext);
 
   useEffect(() => {
     userDetails();
@@ -82,21 +24,26 @@ const UserProfile = (props) => {
           id="main-item-profile"
           className={` rounded-2 justify-content-center d-flex`}
           style={{
-            width: "50vh",
-            // height: "70vh",
+            marginBottom: "20px",
             backgroundColor: `${
               props.mode === "Dark" ? "rgb(11, 17, 31)" : "white"
             }`,
           }}
         >
           <div
-            className="my-4 rounded px-4 d-flex flex-column align-items-start"
+            className="mt-4 rounded px-4 d-flex flex-column align-items-start"
             style={{ width: "100%" }}
           >
             <div className="">
               <img
                 style={{ height: "2.5rem", cursor: "pointer" }}
-                src={props.mode === "Dark" ? userDark : userLight}
+                src={
+                  props.mode === "Dark" ? (
+                    <FaUser color="white" />
+                  ) : (
+                    <FaUser color="black" />
+                  )
+                }
                 alt=""
               />
             </div>
@@ -112,7 +59,7 @@ const UserProfile = (props) => {
               >
                 User Details
               </h5>
-              {loading ? (
+              {isLoading ? (
                 <div className="my-3">
                   <h6
                     style={{ fontSize: "1rem" }}
@@ -150,98 +97,23 @@ const UserProfile = (props) => {
                 </div>
               )}
             </div>
-
-            {/* Activity */}
             <hr className="bg-black" style={{ width: "100%" }} />
-            <div className="">
-              <h5
-                className={`text-${
-                  props.mode === "Dark" ? "dark-emphasis" : "dark"
-                }`}
-              >
-                Activity
-              </h5>
-              <Link
-                to="savedProjects"
-                className={`text-decoration-underline text-${
-                  props.mode === "Dark" ? "light" : "dark"
-                } link-offset-2`}
-              >
-                Saved Projects
-              </Link>
-            </div>
-            {/* Other Links */}
+            <Link to="/addProject" className="text-success">
+              Add Project
+            </Link>
             <hr className="bg-black" style={{ width: "100%" }} />
-            <div className="">
-              
-              <div className="mt-5 d-flex flex-column">
-                <button
-                  onClick={handleDeleteModel}
-                  
-                  className={`mt-5 btn btn-success text-light link-offset-2`}
-                >
-                  Delete Account
-                </button>
-
-                <div>
-                  <button
-                    ref={ref}
-                    type="button"
-                    className="btn btn-primary d-none"
-                    data-bs-toggle="modal"
-                    data-bs-target="#exampleModal"
-                  >
-                    Launch demo modal
-                  </button>
-
-                  <div
-                    className="modal fade"
-                    id="exampleModal"
-                    tabIndex="-1"
-                    aria-labelledby="exampleModalLabel"
-                    aria-hidden="true"
-                  >
-                    <div className="modal-dialog">
-                      <div className="modal-content">
-                        <div className="modal-header">
-                          <h1
-                            className="modal-title fs-5"
-                            id="exampleModalLabel"
-                          >
-                            Account deletion confirmation
-                          </h1>
-                          <button
-                            type="button"
-                            className="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          ></button>
-                        </div>
-                        <div className="modal-body ">
-                          <span>Note : This action is not reversable.</span>
-                        </div>
-                        <div className="modal-footer">
-                          <button
-                            ref={refClose}
-                            type="button"
-                            className="btn btn-outline-success"
-                            data-bs-dismiss="modal"
-                          >
-                            Cancel
-                          </button>
-                          <button
-                            onClick={deleteUserAccount}
-                            type="button"
-                            className="btn btn-success"
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div className="d-flex flex-column">
+              <button
+                onClick={() => {
+                  if (token) {
+                    localStorage.removeItem("token");
+                    navigate("/");
+                  }
+                }}
+                className={`mt-2 btn btn-success text-light link-offset-2`}
+              >
+                LogOut
+              </button>
             </div>
           </div>
         </div>

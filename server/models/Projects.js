@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const ProjectSchema = new Schema({
-  name: {
+  title: {
     type: String,
     required: true,
   },
@@ -10,9 +10,18 @@ const ProjectSchema = new Schema({
     type: String,
     required: true,
   },
-  gitHubUrl: {
+  githubLink: {
     type: String,
     required: true,
+  },
+  deployedLink: {
+    type: String,
+    required: false,
+  },
+  tags: {
+    type: [String],
+    required: false, // If you want tags to be a required field
+    default: [], // If you want to initialize tags as an empty array
   },
   // Additional fields as needed
   createdAt: {

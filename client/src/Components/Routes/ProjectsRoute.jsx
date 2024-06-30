@@ -1,23 +1,19 @@
 import React, { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-// import "../styles/Projects.css";
+import "../styles/Projects.css";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-hot-toast";
 import ProjectContext from "../../Context/projects/ProjectContext";
 import loadingIcon from "../images/loadingt.gif";
+import { FaGithub, FaGithubAlt, FaLink } from "react-icons/fa";
 
 const ProjectRoute = (props) => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const context = useContext(ProjectContext);
 
-  const {
-    projects,
-    loading,
-    saveProject,
-    updateProjects,
-    isProjectSaved,
-  } = context;
+  const { projects, loading, saveProject, updateProjects, isProjectSaved } =
+    context;
 
   useEffect(() => {
     updateProjects();
@@ -71,17 +67,6 @@ const ProjectRoute = (props) => {
                           style={{ minHeight: "43vh" }}
                           className="mt-4 d-flex flex-column align-items-start mx-3"
                         >
-                          <button
-                            style={{ cursor: "default" }}
-                            className={`btn text-${
-                              props.mode === "Dark" ? "light" : "dark"
-                            } border-${
-                              props.mode === "Dark" ? "light" : "dark"
-                            }`}
-                          >
-                            Id : #{project.projectId}
-                          </button>
-
                           <h4
                             className={`text-start text-decoration-underline underline-link-${
                               props.mode === "Dark" ? "light" : "dark"
@@ -89,7 +74,7 @@ const ProjectRoute = (props) => {
                               props.mode === "Light" ? "dark" : "light"
                             }`}
                           >
-                            {project.name}
+                            {project.title}
                           </h4>
                           <p
                             className={`text-start text-${
@@ -98,34 +83,39 @@ const ProjectRoute = (props) => {
                           >
                             {project.description}
                           </p>
-                          <div>
-                            {project?.gitHub_Url && (
+                          <div className="d-flex flex-wrap">
+                            {project.tags &&
+                              project.tags.map((tag, index) => (
+                                <div
+                                  key={index}
+                                  className={`m-2 border-1 rounded p-2 border-${
+                                    props.mode === "Dark"
+                                      ? "light"
+                                      : "black"
+                                  }`}
+                                >
+                                  {tag}
+                                </div>
+                              ))}
+                          </div>{" "}
+                          <div className="d-flex">
+                            {project?.githubLink && (
                               <Link
-                                to={`${project.gitHub_Url}`}
+                                to={`${project.githubLink}`}
                                 target="_blank"
-                                className={`my-2 me-2 btn btn-success`}
+                                className={`m-2 me-2`}
                               >
-                                GitHub
+                                <FaGithub />
                               </Link>
                             )}
 
-                            <button
-                              onClick={() =>
-                                handleSaveProject(project.projectId)
-                              }
-                              className={`my-2 mx-2 btn btn-outline-success`}
-                              // disabled
-                            >
-                              {isProjectSaved ? "Saved" : "Save"}
-                            </button>
-
-                            {project?.visit && (
+                            {project?.deployedLink && (
                               <Link
-                                to={`${project.visit}`}
+                                to={`${project.deployedLink}`}
                                 target="_blank"
-                                className={`my-2 ms-2 btn btn-success`}
+                                className={`m-2 ms-2`}
                               >
-                                Visit
+                                <FaLink />
                               </Link>
                             )}
                           </div>

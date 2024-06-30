@@ -6,11 +6,11 @@ const Footer = (props) => {
     <>
       <footer className={`text-center`} style={{ fontFamily: "sans-serif" }}>
         <div
-          className={`footer-content border-top mt-5 border-${
+          className={`footer-content border-top border-${
             props.mode === "Dark" ? "light" : "dark"
           }`}
         >
-          <div className="d-flex">
+          <div className="d-flex mt-2">
             <span
               className={`copyright text-${
                 props.mode === "Dark" ? "light" : "dark"

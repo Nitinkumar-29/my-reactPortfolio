@@ -1,36 +1,15 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-// import item1 from "../images/search.gif";
+import { Link } from "react-router-dom";
 import "../styles/Services.css";
-import { toast } from "react-hot-toast";
 
 const ServicesRoute = (props) => {
-  const navigate = useNavigate();
-  const hireNow = (e) => {
-    e.preventDefault();
-    props.setProgress(0);
-    if (!localStorage.getItem("token")) {
-      navigate("/login");
-      props.setProgress(100);
-      toast("Please login to continue", "warning", {
-        style: {
-          borderRadius: "10px",
-          background: `${props.mode === "Dark" ? "#fff" : "#333"}`,
-          color: `${props.mode === "Dark" ? "#333" : "#fff"}`,
-        },
-      });
-    } else {
-      props.setProgress(100);
-      navigate("/contact");
-    }
-  };
   return (
     <>
       <div
         className={`service-main text-center text-white`}
         style={{ marginTop: "4rem", fontFamily: "sans-serif" }}
       >
-        <div className="service-content" >
+        <div className="service-content">
           <h1 className={`text-${props.mode === "Dark" ? "light" : "dark"}`}>
             Services
           </h1>
@@ -68,11 +47,7 @@ const ServicesRoute = (props) => {
                   MERN stack projects.
                 </p>
                 <div>
-                  <Link
-                  onClick={hireNow}
-                    to="/contact"
-                    className={`my-2 me-2 btn btn-success`}
-                  >
+                  <Link to="/contact" className={`my-2 me-2 btn btn-success`}>
                     Hire Now
                   </Link>
 
@@ -114,11 +89,7 @@ const ServicesRoute = (props) => {
                   am here to help you with frontend projects.
                 </p>
                 <div className="">
-                  <Link
-                  onClick={hireNow}
-                    to="/contact"
-                    className={`my-2 me-2 btn btn-success`}
-                  >
+                  <Link to="/contact" className={`my-2 me-2 btn btn-success`}>
                     Hire Now
                   </Link>
 
@@ -159,11 +130,7 @@ const ServicesRoute = (props) => {
                   can't really have any value without it.
                 </p>
                 <div>
-                  <Link
-                  onClick={hireNow}
-                    to="/contact"
-                    className={`my-2 me-2 btn btn-success`}
-                  >
+                  <Link to="/contact" className={`my-2 me-2 btn btn-success`}>
                     Hire Now
                   </Link>
 
