@@ -98,7 +98,7 @@ const ProjectRoute = (props) => {
                                 </div>
                               ))}
                           </div>{" "}
-                          <div className="d-flex">
+                          <div className="d-flex my-2">
                             {project?.githubLink && (
                               <Link
                                 to={`${project.githubLink}`}

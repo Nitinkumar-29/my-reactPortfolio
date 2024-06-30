@@ -1,13 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const fetchUser = require("../middleware/fetchUser");
-const path = require("path");
 const { validationResult, body } = require("express-validator");
 const User = require("../models/User");
 const Projects = require("../models/Projects");
-
-// File path for projects.json
-const projectFilePath = path.join(__dirname, "projects.json");
 
 // add project with admin authentication
 router.post(

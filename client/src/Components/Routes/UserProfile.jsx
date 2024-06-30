@@ -7,8 +7,7 @@ import { FaUser } from "react-icons/fa";
 
 const UserProfile = (props) => {
   const navigate = useNavigate();
-  const { userDetails, user, token, isLoading } =
-    useContext(AuthContext);
+  const { userDetails, user, token, isLoading } = useContext(AuthContext);
 
   useEffect(() => {
     userDetails();
@@ -35,17 +34,11 @@ const UserProfile = (props) => {
             style={{ width: "100%" }}
           >
             <div className="">
-              <img
-                style={{ height: "2.5rem", cursor: "pointer" }}
-                src={
-                  props.mode === "Dark" ? (
-                    <FaUser color="white" />
-                  ) : (
-                    <FaUser color="black" />
-                  )
-                }
-                alt=""
-              />
+              {props.mode === "Dark" ? (
+                <FaUser size={25} color="white" />
+              ) : (
+                <FaUser size={25} color="black" />
+              )}
             </div>
             <hr
               className={`bg-${props.mode === "Dark" ? "white" : "black"}`}
@@ -59,7 +52,7 @@ const UserProfile = (props) => {
               >
                 User Details
               </h5>
-              {isLoading ? (
+              {!isLoading ? (
                 <div className="my-3">
                   <h6
                     style={{ fontSize: "1rem" }}

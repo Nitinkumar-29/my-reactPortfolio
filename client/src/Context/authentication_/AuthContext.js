@@ -8,8 +8,8 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children, props }) => {
   const toggleRef = useRef();
   const [passwordType, setPasswordType] = useState("password");
+  const [error, setError] = useState("");
 
-  const [secretKeyErrorMessage, setSecretkeyErrorMessage] = useState("");
   const hiddenKey = "nitinkumar2905@2405";
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({ name: "", email: "", userId: "" });
@@ -77,38 +77,15 @@ export const AuthProvider = ({ children, props }) => {
               },
             });
           } else {
-            toast.error("Cannot process right now, Sorry!", {
-              style: {
-                borderRadius: "10px",
-                background: `${props.mode === "Dark" ? "#fff" : "#333"}`,
-                color: `${props.mode === "Dark" ? "#333" : "#fff"}`,
-              },
-            });
+            setError("internal server error");
           }
         } catch (error) {
           setIsLoading(false);
-          toast.error("User already exists with this email", {
-            style: {
-              borderRadius: "10px",
-              background: `${props.mode === "Dark" ? "#fff" : "#333"}`,
-              color: `${props.mode === "Dark" ? "#333" : "#fff"}`,
-            },
-          });
+          setError("Invalid credentials or email already in use");
         }
       } else {
         setIsLoading(false);
-        toast.error("Password conflict!", {
-          style: {
-            borderRadius: "10px",
-            background: `${props.mode === "Dark" ? "#fff" : "#333"}`,
-            color: `${props.mode === "Dark" ? "#333" : "#fff"}`,
-          },
-        });
       }
-    } else {
-      console.log("wrong secret key");
-      setIsLoading(false);
-      setSecretkeyErrorMessage("wrong secret key");
     }
   };
 
@@ -126,32 +103,15 @@ export const AuthProvider = ({ children, props }) => {
           password: credentials.password,
         }),
       });
-
       const json = await response.json();
       if (json.success) {
         localStorage.setItem("token", json.authToken);
         navigate("/");
-
         setIsLoading(false);
-        toast.success("Successfully logged In!", {
-          style: {
-            borderRadius: "10px",
-            background: `${props.mode === "Dark" ? "#fff" : "#333"}`,
-            color: `${props.mode === "Dark" ? "#333" : "#fff"}`,
-          },
-        });
       } else {
         setIsLoading(false);
-        toast.error("Invalid credentials !", {
-          style: {
-            borderRadius: "10px",
-            background: `${props.mode === "Dark" ? "#fff" : "#333"}`,
-            color: `${props.mode === "Dark" ? "#333" : "#fff"}`,
-          },
-        });
+        setError("Invalid Credentials");
       }
-    } else {
-      setSecretkeyErrorMessage("Invalid secret key");
     }
   };
 
@@ -183,7 +143,6 @@ export const AuthProvider = ({ children, props }) => {
         value={{
           props,
           isLoading,
-          secretKeyErrorMessage,
           credentials,
           setCredentials,
           login,
@@ -197,6 +156,7 @@ export const AuthProvider = ({ children, props }) => {
           user,
           loading,
           token,
+          error,
         }}
       >
         {children}

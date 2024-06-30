@@ -12,8 +12,8 @@ const SignUp = (props) => {
     isLoading,
     createAccountCredentials,
     setCreateAccountCredentials,
-    secretKeyErrorMessage,
     signUp,
+    error,
   } = useContext(AuthContext);
 
   const onChange = (e) => {
@@ -143,9 +143,7 @@ const SignUp = (props) => {
                 <small className="text-start mt-2 ps-2">
                   We will never share your credentials with anyone else
                 </small>
-                {!isLoading && (
-                  <span className="text-danger">{secretKeyErrorMessage}</span>
-                )}
+                {!isLoading && <span className="text-danger">{error}</span>}
               </div>
               <div className="">
                 <button
