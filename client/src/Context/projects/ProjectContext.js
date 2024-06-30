@@ -3,7 +3,7 @@ import { useState } from "react";
 
 const ProjectContext = createContext();
 
-export const ProjectProvider = (props) => {
+export const ProjectProvider = ({ children }) => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -16,7 +16,7 @@ export const ProjectProvider = (props) => {
       const response = await fetch(`${host}/api/projects/fetchAllProjects`);
       if (response.ok) {
         const data = await response.json();
-        console.log(data)
+        console.log(data);
         setProjects(data.allProjects);
         // console.log(data.projects);
       }
@@ -26,9 +26,6 @@ export const ProjectProvider = (props) => {
     setLoading(false);
   };
 
-  
-  
-
   return (
     <ProjectContext.Provider
       value={{
@@ -36,9 +33,10 @@ export const ProjectProvider = (props) => {
         setLoading,
         loading,
         projects,
+        host,
       }}
     >
-      {props.children}
+      {children}
     </ProjectContext.Provider>
   );
 };

@@ -28,11 +28,11 @@ router.post(
       return res.status(404).json("User not found");
     }
     const newProject = new Projects({
-      title,
-      description,
-      githubLink,
-      deployedLink,
-      tags,
+      title: title,
+      description: description,
+      githubLink: githubLink,
+      deployedLink: deployedLink || "",
+      tags: tags || [""],
     });
     await newProject.save();
     res.status(200).json({ newProject });
@@ -56,7 +56,6 @@ router.get("/fetchAllProjects", async (req, res) => {
     res.status(500).json({ error: "Server Error" });
   }
 });
-
 
 // Route for deleting a saved project
 router.delete("/remove/:projectId", fetchUser, async (req, res) => {

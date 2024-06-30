@@ -157,11 +157,11 @@ export const AuthProvider = ({ children, props }) => {
           loading,
           token,
           error,
+          host,
         }}
       >
         {children}
       </AuthContext.Provider>
-      ;
     </>
   );
 };
