@@ -54,7 +54,7 @@ const ProjectRoute = (props) => {
             >
               {!loading &&
                 projects &&
-                projects?.sort((a,b)=>b.createdAt-a.createdAt)?.map((project) => {
+                projects?.sort((a,b)=>b.createdAt - a.createdAt)?.map((project) => {
                   const key = uuidv4();
                   return (
                     <div className="project-map" key={key}>
